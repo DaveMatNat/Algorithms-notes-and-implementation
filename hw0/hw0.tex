@@ -1,0 +1,444 @@
+%% HOW TO USE THIS TEMPLATE:
+%%
+%% Type your solution to each problem part within
+%% the \begin{solution} \end{solution} environment immediately
+%% following it.  Use any of the macros or notation from the
+%% header.tex that you need, or use your own (but try to stay
+%% consistent with the notation used in the problem).
+%%
+%% If you have problems compiling this file, you may lack the
+%% Header.tex file (available on the course box page), or your system
+%% may lack some LaTeX packages.  The "exam" package (required) is
+%% available at:
+%%
+%% http://mirror.ctan.org/macros/latex/contrib/exam/exam.cls
+%%
+%% Other packages can be found at ctan.org, or you may just comment
+%% them out (only the exam and ams* packages are absolutely required).
+
+
+% The "answers" option causes the solutions to be printed.
+% The pdf for this homework that's on blackboard was compiled without the
+% answers flag for compactness. You need to include it.
+%\documentclass[11pt,addpoints]{exam}
+\documentclass[11pt,addpoints,answers]{exam}
+
+% required macros -- get latest hwheader.tex file from blackboard if compiling
+\input{hwheader}
+
+\hwheader{Homework 0}
+{David Nathanson}
+{Spring 2023, Bhakta}
+{CS 315, Algorithms}
+{Due: 11:59pm Wednesday, Jan 18}
+
+% VARIABLES
+
+\begin{document}
+
+\pagestyle{head}                % put header on every page
+
+\noindent 
+This assignment is a refresher on the basics for logic and proofs.
+It is basically a few of my old CS 222 homeworks cobbled together.
+You do not have to submit solutions to this assignment at any point,
+nor will I grade them if you do.
+
+Though this assignment won't be graded, you are welcome and encouraged to see me
+in office hours to discuss these questions.
+
+\begin{questions}
+  \setcounter{question}{-1}
+
+\question (EXAMPLE) Prove or disprove the following statements: 
+\begin{parts}
+  \part (EXAMPLE) $\star$ For all integers $x,y$, if $x$ and $y$ are both
+  even, then $x+y$ is also even.
+
+  This is a "good" clean proof of this fact.
+  \begin{solution}
+    This fact is true.
+
+    \begin{proof}[good] 
+      Let $x$ and $y$ be even integers.
+
+      By the definition of even, there exist integers $k,j$ such that $x=2k, y=2j$.
+
+      Therefore $x + y = 2k + 2j = 2(k+j)$.
+
+      Since $k$ and $j$ are integers, $k+j$ is an integer, so $x+y=2(k+j)$ is
+      twice an integer and therefore satisfies the definition of even.
+    \end{proof}
+  \end{solution}
+
+  (Notes regarding the above proof)
+  \begin{itemize}
+    \item In the first step, we let x and y be \emph{arbitrary} even integers.
+      This means that we can conclude that this result applies to \emph{all}
+      pairs of even integers.
+    \item In order to talk about things being even, we need to use the
+      definition of even - an integer $x$ is even iff $x = 2y$ for some
+      integer $y$.
+    \item We use the definition two ways. We *use* the definition of even to
+      establish facts about $x$ and $y$ at the beginning of the proof. We also
+      show that $x+y$ *satisfies* the definition of even at the end of the
+      proof.
+  \end{itemize}
+
+  This is a bad, incorrect "proof" of the same fact.
+
+  \begin{solution}
+    \begin{proof}[bad]
+    $x=2k$ for some $k$, and $y=2k$ for some $k$ by definition of even; 
+    $x+y=4k$ by definition of even.
+    \end{proof}
+  \end{solution}
+
+  (Notes regarding this proof attempt).
+  \begin{itemize}
+    \item Hard for me to tell if you decided to prove that this is true, or
+      disprove it as false.
+    \item Not enough words are used to make absolutely 100\% clear what the
+      proof writer is doing and why.
+    \item The same variable name $k$ is used for two (potentially) different
+      integers, resulting in a (possibly false) conclusion that $x+y$ is a
+      multiple of 4.
+  \end{itemize}
+
+  This is a blatantly wrong ``proof'' of the same fact.
+
+  \begin{solution}
+    This fact is true.
+    \begin{proof}[really bad]
+      Let $x,y$ be even integers.
+      Assume $x=2$ and $y=2$. Then $x+y=4$, which is even.
+    \end{proof}
+  \end{solution}
+
+  (Notes regarding this proof attempt).
+  \begin{itemize}
+    \item The statement that we are trying to prove is about all even numbers.
+      The assumptions made about $x$ and $y$ make this no longer a general
+      statement about all even integers.
+  \end{itemize}
+
+
+  \part (EXAMPLE) $\star$ For all integers $x$ and $y$, $x$ and $y$ are both
+  even if and only if $x+y$ is even.
+
+  This is an incorrect solution.
+
+  \begin{solution}
+    This statement is true.
+    Say $x + y = 4$. Then assume $x = 2, y = 2$. $x$ and $y$ are both even.
+  \end{solution}
+  (Notes on above incorrect solution)
+  \begin{itemize}
+    \item Again, we're making a statement about general integers. This means
+      that this not a valid proof, because it only asserts something for a
+      specific case of $x$ and $y$.
+  \end{itemize}
+
+
+  This is a correct solution.
+
+  \begin{solution}
+    This statement is false.
+    As a counterexample, consider the case where $x=1,y=1$. 
+    Then we have that $x+y=2$, which is even, although $x$ and $y$ are not
+    even.
+  \end{solution}
+
+  (Notes on the correct solution)
+  \begin{itemize}
+    \item Here we disproved a statement by finding a counterexample. 
+    \item The statement was of the form $\forall x,y p(x,y) \iff q(x,y)$. A
+      counterexample would be a case of $x, y$ where $p(x,y) = True$ yet
+      $q(x,y) = False$, which is what we found.
+  \end{itemize}
+
+
+  \part (EXAMPLE) $\star$ There is no smallest integer.
+
+  Bad solution
+  \begin{solution}
+  \begin{proof}
+    This statement is true.
+    The set of integers goes to $-\infty$, so there's no smallest one.
+  \end{proof}
+  \end{solution}
+  (Notes on above solution)
+  \begin{itemize}
+    \item This may be good intuition, but it's a bad proof.
+    \item Parts of this are vague, what do you mean a set ``goes to $-\infty$?
+      A set isn't necessarily a sequence of integers in order.
+    \item Asserting that the set of integers ''goes to $-\infty$``, even if
+      that statement was made rigorous, would effectively only be a rephrasing
+      of our statement of ''There is no smallest integer``. It is not
+      justifing why this statement is true based on simpler principles, it is
+      only rephrasing the statement as a different, equivalent statement that
+      is provided without justification and might also need proof.
+  \end{itemize}
+
+  Good solution
+  \begin{solution}
+  \begin{proof}
+    This statement is true.
+    Proof by contradiction. 
+    
+    Assume that there is a smallest integer. Call it $x$.
+
+    If $x$ is an integer, then $x-1$ is an integer. However, $x -1 < x$.
+
+    This contradicts the fact that $x$ is the smallest integer.
+  \end{proof}
+  \end{solution}
+
+  (Notes on above solution)
+  \begin{itemize}
+    \item We announce that we are doing a proof by contradiction, to make it
+      clear to the reader what we are doing and why.
+    \item The opposite of the goal is assumed in the first step.
+    \item Once we know something with a given property exists, we can give it
+      a name:  $x$.
+    \item We can do math using this hypothetical $x$ to arrive at a
+      contradiction, namely that $x-1$ would be a smaller integer.
+    \item The facts that we are using ``x is an integer -> x-1 is an
+      integer'', and $x-1 < x$ are well known facts of integer arithmetic.
+      They are more fundamental than ``there is no smallest integer''. These
+      kinds of statements could be explained further all the way down to the
+      axioms of set theory, but this is generally unnecessary. The depth to
+      which you need to explain facts depends on your audience (math vs CS,
+      undergrads vs researchers, etc.).
+  \end{itemize}
+\end{parts}
+
+\question[30]
+Prove or disprove the following statements. The proofs should only need to be
+a few sentences long. Some of these may be somewhat tricky. You may assume the
+following common high school level facts about arithmetic without further
+proof.
+
+\begin{itemize}
+  \item Definition of even, odd, rational, irrational.
+  \item The sum and product of integers is an integer.
+  \item Addition and multiplication is commutative and associative.
+  \item The fact that many numbers like $\sqrt{2}, \pi, \ldots$ are irrational.
+\end{itemize}
+
+\begin{parts}
+  \part If $x$ is a rational real number, then $2x + 1$ is also rational.
+  \begin{solution}
+    
+  \end{solution}
+
+  \part If $x$ is an irrational real number, then $2x + 1$ is also irrational.
+  \begin{solution}
+    
+  \end{solution}
+
+  \part For all irrational numbers x,y, $x\cdot y$ must be irrational.
+  \begin{solution}
+    
+  \end{solution}
+
+
+  \part For all real $y$, there exists a non-negative real $x$ such that $x^2
+  = y$.
+  \begin{solution}
+    
+  \end{solution}
+
+  \part For all non-negative integers $x,y$ such that $x < y$, there exists an
+  integer $z$ such that $x^2 < z < y^2$.
+  \begin{solution}
+    
+  \end{solution}
+
+  \part Let $a_1, a_2, \ldots a_n$ be a set of n real numbers. The mean (or
+  average) of these is defined to be $\bar{a} = \frac{\sum_{i=1}^n a_i}{n}$.
+  Claim: For any such list of real numbers $\set{a_i}$,
+  there must be some $i, 1 \leq
+  i \leq n$ where $a_i \geq \bar{a}$.
+  \begin{solution}
+    
+  \end{solution}
+
+\end{parts}
+
+
+\question[30]
+  You are Detective Holmes, and you are investigating the stabbing murder of
+  Garrett Lambert. There were 7 total people who entered the study building,
+  Abed, Britta, Chang, Dean, Elroy, Frankie, and Garrett, the
+  victim.  The six people other than Garrett are suspects.
+
+  The building where the murder happened has three study rooms. Each of the 7
+  people above went into a study room.
+  The murderer was alone with Garrett in one of these three rooms.
+  Unfortunately, we don't know which room Garrett went to or with who.
+
+  One of these six suspects is the murderer. All of the suspects have given
+  statements below. The innocent people give completely true statements, but
+  the murderer may or may not be lying.
+  \begin{itemize}
+    \item Abed: ``Elroy and Frankie weren't together''
+    \item Britta: ``I was with Dean''
+    \item Chang: ``I was not with Britta or with Elroy''.
+    \item Dean: ``Abed and Chang were in the same room''.
+    \item Elroy: ``I wasn't with Britta''
+    \item Frankie: ``I wasn't with Dean, but Elroy was.''
+  \end{itemize}
+
+  Deduce who the murderer is, and PROVE that the murderer could only be the
+  person you think it is by writing a clear and concise statement to
+  the police at Scotland Yard (FYI the police at Scotland Yard hate you).
+
+  You should be mindful of the various proof techniques, use them
+  appropriately. Rather than doing a massive proof by cases, try to reduce the
+  number of cases you have to consider by making appropriate observations.
+  \begin{solution}
+    
+  \end{solution}
+
+
+\question (EXAMPLE)
+For positive integer $n$, find a simple formula for $\sum_{i=1}^n
+\frac{1}{2^i} = \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \ldots +
+\frac{1}{2^n}$, and prove it.
+  \begin{solution}
+    Claim: $\sum_{i=1}^n \frac{1}{2^i} = 1 - \frac{1}{2^n}$.
+
+    We prove this by induction.
+
+    Basis Step: for $n=1$, $\frac{1}{2} = 1 - \frac{1}{2^1}$ as desired.
+
+    Indctive Step:
+    For a \emph{fixed} $n \geq 1$, assume that $\sum_{i=1}^n \frac{1}{2^i} = 1
+    - \frac{1}{2^n}$.
+
+    Then,
+    \begin{align*}
+      \sum_{i=1}^{n+1} \frac{1}{2^i}
+      &= \frac{1}{2^{n+1}} + \sum_{i=1}^{n} \frac{1}{2^i} \tag{Expand the sum}\\
+      &= \frac{1}{2^{n+1}} + 1 - \frac{1}{2^{n}} \tag{Inductive Hypothesis} \\
+      &= 1 - (\frac{1}{2^{n}} - \frac{1}{2^{n+1}}) \tag{Algebra} \\
+      &= 1 - \frac{1}{2^{n+1}} \tag{Simplification}
+    \end{align*}
+
+    Thus $\sum_{i=1}^{n+1} \frac{1}{2^i} = 1 - \frac{1}{2^{n+1}}$. This
+    concludes the inductive step.
+
+    Therefore, we conclude by induction that
+    $\sum_{i=1}^n \frac{1}{2^i} = 1 - \frac{1}{2^n}$ for all positive $n$.
+  \end{solution}
+
+\question (EXAMPLE)
+Show by induction that the number of distinct 2 element subsets of an $n$
+element set is $\frac{n(n-1)}{2}$ for $n \geq 2$.
+  \begin{solution}
+    Basis Step: for $n=2$, there is only one 2-element subset of a 2-element
+    set. Also, $\frac{2(2-1)}{2} = 1$ as desired.
+
+    Indctive Step:
+    Say that the claim is true for a fixed $n$. Consider a set $A$ with $n+1$
+    elements. 
+    Let those elements be referred to as $a_1, a_2, \ldots a_{n+1}$.
+    We separate the 2-element subsets of $A$ into two groups.
+    \begin{itemize}
+      \item The set of 2-element subsets of $A$ that include $a_{n+1}$. 
+
+        Knowing that $a_{n+1}$ is one element of the 2-element subset, the
+        only possible subsets are $\set{a_1, a_{n+1}},
+        \set{a_2, a_{n+1}}, \ldots \set{a_n, a_{n+1}}$.
+
+        There are exactly $n$ such subsets.
+      \item  The set of 2-element subsets of $A$ that do not include
+        $a_{n+1}$. 
+        
+        Since we do not include $a_{n+1}$, these subsets are
+      exactly the subsets of $\set{a_1, a_2, \ldots a_n}$, which has $n$
+      elements. 
+      
+      By the inductive hypothesis, there are $\frac{n(n-1)}{2}$ of
+      these sets.
+    \end{itemize}
+    Therefore, the total number of 2-element subsets of $A$ is
+    $\frac{n(n-1)}{2} + n = \frac{n(n-1) + 2n}{2} = \frac{(n+1)(n)}{2}$ as
+    desired.
+  \end{solution}
+
+  \question (EXAMPLE)
+  Find the flaw in this inductive proof.
+
+  Claim: Let $n$ be a finite integer. In every set of $n$ people, all the people
+  in the set share the same height.
+   
+  Proof: We prove this by induction.
+
+  Base Case: If $n = 1$, then it's true that the one person in a set of $1$
+  element has the same height as everyone in the set.
+
+  Inductive step:
+  Say that, for fixed $n$, every set of $n$ people must have the same height.
+
+  Consider a set of $n+1$ people. Number each person $a_1 \ldots a_{n+1}$.
+  The subset $\set{a_1 \ldots a_n}$ has $n$ people, and therefore all of them
+  must have the same height by the inductive hypothesis. The subset
+  $\set{a_2 \ldots a_{n+1}}$ also has $n$ elements, and they must all have
+  height as well by the inductive hypothesis. Since the two sets overlap,
+  it follows that all $n+1$ people in the group must have the same height.
+
+  Therefore, we conclude by induction that all finite sets of people have the
+  same height.
+
+  \begin{solution}
+  \end{solution}
+
+  \question (OPTIONAL)
+  Clearly state the flaw in this inductive proof. (Pretend that someone
+  you hate is trying to make the following argument. Convince them why
+  they are wrong.)
+
+  Claim: $2^n = 1$ for all $n \geq 0$.
+   
+  Proof: We prove this by strong induction.
+
+  Base Case: If $n = 0$, then it's true that $2^0 = 1$.
+
+  Inductive step:
+  Assume that for fixed $n$ and all $i : 0 \leq i \leq n$ that $2^i = 1$.
+  Then $2^{n+1} = \frac{ 2^n \cdot 2^n }{2^{n-1}}$. By the inductive
+  hypothesis, $2^n$ and $2^{n-1}$ are both $1$. Therefore $2^{n+1} = \frac{1
+  \cdot 1}{1} = 1$.
+
+  Therefore, we conclude that $2^n = 1$ for all $n \geq 0$
+
+  \begin{solution}
+  \end{solution}
+
+
+\question[30]
+  A recurrence sequence $a_1, a_2, \ldots$ is defined as: $a_0 = 0$, $a_1 = 1$,
+  and for all $i \geq 2$, $a_i = 2a_{i-1} - a_{i-2} + 2$. Find a simple closed
+  form formula for $a_i$, and prove that your statement holds for all $n$ by
+  induction.
+  \begin{solution}
+
+  \end{solution}
+
+\question[30]
+  For a graph $G = (V,E)$, let $deg(v)$ be the number of neighbors of vertex
+  $v$. Prove by induction that $\sum_v deg(v) = 2|E|$ for all graphs $G$.
+
+  Hint: Prove this by induction on the number of edges. In other words, start
+  proving that this fact is true for graphs with $0$ edges as a base case,
+  then $1$ edge, then $2$, etc. Remember to ``look backwards'' to previously
+  proven statements, not ``forwards''.
+
+  \begin{solution}
+
+  \end{solution}
+
+\end{questions}
+\end{document}

@@ -1,0 +1,452 @@
+%This header file was created and compiled from many sources by Prateek Bhakta, 
+%1/1/2016, with heavy influence from the header files of Chris Peikert.
+\usepackage[hmargin=1in, vmargin=1in]{geometry}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{mathrsfs}
+\usepackage{amsbsy}
+\usepackage{tabularx}
+\usepackage[table,svgnames]{xcolor}
+\usepackage{textcomp}
+\usepackage{mathtools}
+\usepackage[amsmath,thmmarks,thref]{ntheorem}
+\usepackage{xspace}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage[hypcap=true]{caption}
+\usepackage[hypcap=true]{subcaption}
+\usepackage{hyperref}
+\usepackage{pdfsync}
+\usepackage{microtype}
+\usepackage{multirow,bigdelim}
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,positioning, decorations.pathreplacing,calc}
+
+\hypersetup{%
+  colorlinks=true,% hyperlinks will be colored
+}
+
+\setlength{\textheight}{9in}
+\setlength{\baselineskip}{0in}
+
+% Generate the header of the homeworks
+\newcommand{\hwheader}[5]{
+  \chead{\LARGE \textbf{#1}}
+
+  \lhead{\small \textbf{#2 }\\#5} %Students / Duedate
+
+  \rhead{\small \textbf{#3 }\\#4} %Course / Instructor
+
+  \setlength{\headheight}{26pt}
+  \setlength{\headsep}{16pt}
+  
+  \headrule
+}
+
+
+%Some tikz stuff for matrix braces. Stolen from stackexchange
+\pgfkeys{tikz/mymatrixenv/.style={decoration=brace,every left delimiter/.style={xshift=3pt},every right delimiter/.style={xshift=-3pt}}}
+\pgfkeys{tikz/mymatrix/.style={matrix of math nodes,left delimiter=[,right delimiter={]},inner sep=2pt,column sep=1em,row sep=0.5em,nodes={inner sep=0pt}}}
+\pgfkeys{tikz/mymatrixbrace/.style={decorate,thick}}
+\newcommand\mymatrixbraceoffseth{0.5em}
+\newcommand\mymatrixbraceoffsetv{0.2em}
+
+% Now the commands to produce the braces. (I'll explain below how to use them.)
+\newcommand*\mymatrixbraceleft[4][m]{
+    \draw[mymatrixbrace] ($(#1.north west)!(#1-#3-1.south west)!(#1.south west)-(\mymatrixbraceoffseth,0)$)
+        -- node[left=2pt] {#4} 
+        ($(#1.north west)!(#1-#2-1.north west)!(#1.south west)-(\mymatrixbraceoffseth,0)$);
+}
+\newcommand*\mymatrixbraceright[4][m]{
+    \draw[mymatrixbrace] ($(#1.north east)!(#1-#2-1.north east)!(#1.south east)+(\mymatrixbraceoffseth,0)$)
+        -- node[right=2pt] {#4} 
+        ($(#1.north east)!(#1-#3-1.south east)!(#1.south east)+(\mymatrixbraceoffseth,0)$);
+}
+\newcommand*\mymatrixbracetop[4][m]{
+    \draw[mymatrixbrace] ($(#1.north west)!(#1-1-#2.north west)!(#1.north east)+(0,\mymatrixbraceoffsetv)$)
+        -- node[above=2pt] {#4} 
+        ($(#1.north west)!(#1-1-#3.north east)!(#1.north east)+(0,\mymatrixbraceoffsetv)$);
+}
+\newcommand*\mymatrixbracebottom[4][m]{
+    \draw[mymatrixbrace] ($(#1.south west)!(#1-1-#3.south east)!(#1.south east)-(0,\mymatrixbraceoffsetv)$)
+        -- node[below=2pt] {#4} 
+        ($(#1.south west)!(#1-1-#2.south west)!(#1.south east)-(0,\mymatrixbraceoffsetv)$);
+}
+
+
+% Theorem related latex commands - requires the ntheorem package, not amsthm
+% You won't be needing to do much theorem formatting in homeworks - these are
+% more useful for papers. This is designed for the exam doctype, and theorems
+% will renumber with each question reset.
+
+\theoremstyle{plain}            % following are "theorem" style
+\theoremheaderfont{\it\bfseries}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremstyle{plain}            % following are "theorem" style
+\newtheorem{theorem}{Theorem}[question]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{openproblem}[theorem]{Open Problem}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{remark}[theorem]{Remark} %Do not advance numbers
+\newtheorem*{note}[theorem]{Note} %Do not advance numbers
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremsymbol{\ensuremath{\diamondsuit}}
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\upshape}
+\theoremseparator{.}
+\theoremprework{\bigskip\hrule}
+\theorempostwork{\hrule\bigskip}
+\newtheorem{definition}{Definition}[question]
+
+\theoremstyle{nonumberplain}
+\theoremindent0cm
+\theoremheaderfont{\scshape}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theoremsymbol{\rule{1ex}{1ex}}
+\theoremindent0.5cm
+\newtheorem{proof}{Proof}[question]
+
+\numberwithin{equation}{question}
+
+%Shorthand for fitted sets, lists, etc. "left-right" pairs of symbols
+
+% inner product
+\DeclarePairedDelimiter\inner{\langle}{\rangle}
+% absolute value
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+% a set
+\DeclarePairedDelimiter\set{\{}{\}}
+% parens
+\DeclarePairedDelimiter\parens{(}{)}
+% tuple, alias for parens
+\DeclarePairedDelimiter\tuple{(}{)}
+% square brackets
+\DeclarePairedDelimiter\bracks{[}{]}
+% rounding off
+\DeclarePairedDelimiter\round{\lfloor}{\rceil}
+% floor function
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+% ceiling function
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+% length of some vector, element
+\DeclarePairedDelimiter\length{\lVert}{\rVert}
+% norm (same as length)
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+% "lifting" of a residue class
+\DeclarePairedDelimiter\lift{\llbracket}{\rrbracket}
+\DeclarePairedDelimiter\len{\lvert}{\rvert}
+
+%multipart functions
+\newcommand{\multi}[1]{
+\left\{
+\begin{array}{rl}
+  #1
+\end{array} \right.
+}
+
+%set lists
+\newcommand{\setto}[2][1]{\set{#1,\ldots,#2}}
+\newcommand{\listset}[3]{\set{#1_{#2},\ldots,#1_{#3}}}
+\newcommand{\ltset}[3]{\set{#1_{#2},\ldots,#1_{#3}}}
+\newcommand{\listsum}[3]{#1_{#2}+ \ldots + #1_{#3}}
+\newcommand{\ltsum}[3]{#1_{#2}+ \ldots + #1_{#3}}
+\newcommand{\listprod}[3]{#1_{#2}\cdot \ldots \cdot #1_{#3}}
+\newcommand{\ltprod}[3]{#1_{#2}\cdot \ldots \cdot #1_{#3}}
+\newcommand{\listand}[3]{#1_{#2}\land \ldots \land #1_{#3}}
+\newcommand{\ltand}[3]{#1_{#2}\land \ldots \land #1_{#3}}
+\newcommand{\listor}[3]{#1_{#2}\lor \ldots \lor #1_{#3}}
+\newcommand{\ltor}[3]{#1_{#2}\lor \ldots \lor #1_{#3}}
+\newcommand{\Mod}[1]{\ (\text{mod}\ #1)}
+
+
+%Shorthand for ``fancy type'' - use for sets, etc.
+% blackboard symbols
+
+%Some are letters are excluded because they often mean other things -
+%\E for Expected Value, etc.
+\newcommand{\bb}[1]{\ensuremath{\mathbb{#1}}}
+\newcommand{\A}{\bb{A}}
+\newcommand{\B}{\bb{B}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\D}{\bb{D}}
+\newcommand{\F}{\bb{F}}
+\newcommand{\G}{\bb{G}}
+\newcommand{\J}{\bb{J}}
+\newcommand{\M}{\bb{M}}
+\newcommand{\N}{\bb{N}}
+%renew overwrites the old macro - \L used by latex isn't useful to me.
+\renewcommand{\L}{\bb{L}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\p}{\bb{P}}
+\newcommand{\T}{\bb{T}}
+\newcommand{\U}{\bb{U}}
+\newcommand{\V}{\bb{V}}
+\newcommand{\X}{\bb{X}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\QR}{\bb{QR}}
+
+% sets in calligraphic type - I don't use this much
+\newcommand{\calD}{\ensuremath{\mathcal{D}}}
+\newcommand{\calF}{\ensuremath{\mathcal{F}}}
+\newcommand{\calG}{\ensuremath{\mathcal{G}}}
+\newcommand{\calH}{\ensuremath{\mathcal{H}}}
+\newcommand{\calX}{\ensuremath{\mathcal{X}}}
+\newcommand{\calY}{\ensuremath{\mathcal{Y}}}
+
+% sets in script
+\newcommand{\scr}[1]{\ensuremath{\mathscr{#1}}}
+\newcommand{\SA}{\scr{A}}
+\newcommand{\SB}{\scr{B}}
+\newcommand{\SC}{\scr{C}}
+\newcommand{\SD}{\scr{D}}
+\newcommand{\SE}{\scr{E}}
+\newcommand{\SF}{\scr{F}}
+\newcommand{\SG}{\scr{G}}
+\newcommand{\SJ}{\scr{J}}
+\newcommand{\SK}{\scr{K}}
+\newcommand{\SL}{\scr{L}}
+\newcommand{\SM}{\scr{M}}
+\newcommand{\SN}{\scr{N}}
+%Avoid using O's in math! It looks like zero!
+\newcommand{\SP}{\scr{P}}
+\newcommand{\SQ}{\scr{Q}}
+\newcommand{\SR}{\scr{R}}
+%SS is defined by Latex, I don't want to overwrite because I don't know why
+\newcommand{\ST}{\scr{T}}
+\newcommand{\SU}{\scr{U}}
+\newcommand{\SV}{\scr{V}}
+\newcommand{\SW}{\scr{W}}
+\newcommand{\SX}{\scr{X}}
+\newcommand{\SY}{\scr{Y}}
+\newcommand{\SZ}{\scr{Z}}
+
+%Linear Algebra
+% macros for matrices and vectors (bolded)
+
+\newcommand{\matA}{\ensuremath{\mathbf{A}}}
+\newcommand{\matB}{\ensuremath{\mathbf{B}}}
+\newcommand{\matC}{\ensuremath{\mathbf{C}}}
+\newcommand{\matD}{\ensuremath{\mathbf{D}}}
+\newcommand{\matE}{\ensuremath{\mathbf{E}}}
+\newcommand{\matF}{\ensuremath{\mathbf{F}}}
+\newcommand{\matG}{\ensuremath{\mathbf{G}}}
+\newcommand{\matH}{\ensuremath{\mathbf{H}}}
+\newcommand{\matI}{\ensuremath{\mathbf{I}}}
+\newcommand{\matJ}{\ensuremath{\mathbf{J}}}
+\newcommand{\matK}{\ensuremath{\mathbf{K}}}
+\newcommand{\matL}{\ensuremath{\mathbf{L}}}
+\newcommand{\matM}{\ensuremath{\mathbf{M}}}
+\newcommand{\matN}{\ensuremath{\mathbf{N}}}
+\newcommand{\matP}{\ensuremath{\mathbf{P}}}
+\newcommand{\matQ}{\ensuremath{\mathbf{Q}}}
+\newcommand{\matR}{\ensuremath{\mathbf{R}}}
+\newcommand{\matS}{\ensuremath{\mathbf{S}}}
+\newcommand{\matT}{\ensuremath{\mathbf{T}}}
+\newcommand{\matU}{\ensuremath{\mathbf{U}}}
+\newcommand{\matV}{\ensuremath{\mathbf{V}}}
+\newcommand{\matW}{\ensuremath{\mathbf{W}}}
+\newcommand{\matX}{\ensuremath{\mathbf{X}}}
+\newcommand{\matY}{\ensuremath{\mathbf{Y}}}
+\newcommand{\matZ}{\ensuremath{\mathbf{Z}}}
+\newcommand{\matzero}{\ensuremath{\mathbf{0}}}
+
+\newcommand{\veca}{\ensuremath{\mathbf{a}}}
+\newcommand{\vecb}{\ensuremath{\mathbf{b}}}
+\newcommand{\vecc}{\ensuremath{\mathbf{c}}}
+\newcommand{\vecd}{\ensuremath{\mathbf{d}}}
+\newcommand{\vece}{\ensuremath{\mathbf{e}}}
+\newcommand{\vecf}{\ensuremath{\mathbf{f}}}
+\newcommand{\vecg}{\ensuremath{\mathbf{g}}}
+\newcommand{\vech}{\ensuremath{\mathbf{h}}}
+\newcommand{\veck}{\ensuremath{\mathbf{k}}}
+\newcommand{\vecm}{\ensuremath{\mathbf{m}}}
+\newcommand{\vecp}{\ensuremath{\mathbf{p}}}
+\newcommand{\vecq}{\ensuremath{\mathbf{q}}}
+\newcommand{\vecr}{\ensuremath{\mathbf{r}}}
+\newcommand{\vecs}{\ensuremath{\mathbf{s}}}
+\newcommand{\vect}{\ensuremath{\mathbf{t}}}
+\newcommand{\vecu}{\ensuremath{\mathbf{u}}}
+\newcommand{\vecv}{\ensuremath{\mathbf{v}}}
+\newcommand{\vecw}{\ensuremath{\mathbf{w}}}
+\newcommand{\vecx}{\ensuremath{\mathbf{x}}}
+\newcommand{\vecy}{\ensuremath{\mathbf{y}}}
+\newcommand{\vecz}{\ensuremath{\mathbf{z}}}
+\newcommand{\veczero}{\ensuremath{\mathbf{0}}}
+
+
+%Shorthands
+\newcommand{\bit}{\ensuremath{ {\set{0,1}}} }
+\newcommand{\booln}{\bit^n}
+\newcommand{\zo}{\ensuremath{{ {\bracks{0,1}}} }}
+\newcommand{\pmone}{\ensuremath{{ {\set{-1,1}}}}}
+
+\makeatletter
+\DeclareRobustCommand\onedot{\futurelet\@let@token\@onedot}
+\def\@onedot{\ifx\@let@token.\else.\null\fi\xspace}
+\def\eg{{e.g}\onedot} \def\Eg{{E.g}\onedot}
+\def\ie{{i.e}\onedot} \def\Ie{{I.e}\onedot}
+\def\cf{{c.f}\onedot} \def\Cf{{C.f}\onedot}
+\def\st{{s.t}\onedot}
+\def\io{{i.o}\onedot}
+\def\as{{a.s}\onedot}
+\def\etc{{etc}\onedot}
+\def\vs{{vs}\onedot}
+\def\wrt{{w.r.t}\onedot}
+\def\dof{{d.o.f}\onedot}
+\def\etal{{et al}\onedot}
+\def\th{\ensuremath{^{th}}}
+\makeatother
+\newcommand{\bs}{\backslash}
+%\newcommand{\qed}{\hfill $\square$ }
+
+\def\iid{i.i.d\onedot}
+\def\pdf{p.d.f\onedot}
+\def\cdf{c.d.f\onedot}
+\def\mgf{m.g.f\onedot}
+
+\newcommand{\orr}{\vee}
+\newcommand{\andd}{\wedge}
+
+
+\newcommand{\inv}[1]{\frac{1}{#1}}
+\newcommand{\oon}{\inv{n}}
+\renewcommand{\half}{\inv{2}}
+\newcommand{\third}{\inv{3}}
+\newcommand{\xor}{\oplus}
+
+% probability/distribution stuff
+\DeclareMathOperator*{\E}{E}
+\DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\Cov}{Cov}
+\DeclareMathOperator*{\Corr}{Corr}
+
+\DeclareMathOperator*{\Unif}{Unif}
+\DeclareMathOperator*{\Bin}{Bin}
+\DeclareMathOperator*{\Geom}{Geom}
+\DeclareMathOperator*{\Pois}{Pois}
+\DeclareMathOperator*{\Expo}{Exp}
+\DeclareMathOperator*{\Erlang}{Erlang}
+\DeclareMathOperator*{\Gam}{Gamma}
+\DeclareMathOperator*{\Nor}{Norm}
+
+\newcommand{\PR}[2][]{\P_{#1}\bracks{#2}}
+\newcommand{\PRT}[2][]{\P_{#1}\bracks{\text{#2}}}
+\newcommand{\PRS}[2][]{\P_{#1}\parens{#2}}
+%My personal choice - use \EV and \VAR for automatic brackets, use \E and \Var
+%for rare multi-line things
+\newcommand{\EV}[1]{\E\bracks{#1}}
+\newcommand{\VAR}[1]{\Var\bracks{#1}}
+\newcommand{\COV}[1]{\Cov\bracks{#1}}
+\newcommand{\CORR}[1]{\Corr\parens{#1}}
+
+%convergence in difference ways
+\newcommand{\overto}[1]{\overset{#1}{\to}}
+\newcommand{\pto}{\overto{\P}}
+\newcommand{\dto}{\overto{\D}}
+\newcommand{\asto}{\overto{\as}}
+
+%Graph Theory Stuff
+\newcommand{\gnp}{G_{n,p}}
+\newcommand{\gnnp}{G_{n,n,p}}
+
+%Geometry
+\newcommand{\oline}[1]{\overleftrightarrow{#1}}
+
+\newcommand{\Zt}{\ensuremath{\Z_t}}
+\newcommand{\Zp}{\ensuremath{\Z_p}}
+\newcommand{\Zq}{\ensuremath{\Z_q}}
+\newcommand{\ZN}{\ensuremath{\Z_N}}
+\newcommand{\Zps}{\ensuremath{\Z_p^*}}
+\newcommand{\ZNs}{\ensuremath{\Z_N^*}}
+\newcommand{\JN}{\ensuremath{\J_N}}
+\newcommand{\QRN}{\ensuremath{\mathbb{QR}_N}}
+\newcommand{\QRp}{\ensuremath{\QR_{p}}}
+
+%Shorthand for common CS Theory things
+
+% asymptotic stuff
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\polylog}{polylog}
+\DeclareMathOperator{\negl}{negl}
+\newcommand{\Otil}{\ensuremath{\tilde{O}}}
+
+% types of indistinguishability
+\newcommand{\compind}{\ensuremath{\stackrel{c}{\approx}}}
+\newcommand{\statind}{\ensuremath{\stackrel{s}{\approx}}}
+\newcommand{\perfind}{\ensuremath{\equiv}}
+
+
+% font for general-purpose algorithms
+\newcommand{\algo}[1]{\ensuremath{\mathsf{#1}}}
+% font for general-purpose computational problems
+\newcommand{\prob}[1]{\ensuremath{\mathsf{#1}}}
+% font for complexity classes
+\newcommand{\class}[1]{\ensuremath{\mathsf{#1}}}
+
+% complexity classes and languages
+\renewcommand{\P}{\class{P}}
+\newcommand{\NP}{\class{NP}}
+\newcommand{\PH}{\class{PH}}
+\renewcommand{\L}{\class{L}}
+\newcommand{\NL}{\class{NL}}
+\newcommand{\EXP}{\class{EXP}}
+\newcommand{\coNP}{\class{coNP}}
+\newcommand{\BPP}{\class{BPP}}
+\newcommand{\ZPP}{\class{ZPP}}
+\newcommand{\RP}{\class{RP}}
+\newcommand{\coRP}{\class{coRP}}
+\newcommand{\PSP}{\class{PSPACE}}
+\newcommand{\NPSP}{\class{NPSPACE}}
+\newcommand{\AM}{\class{AM}}
+\newcommand{\MAM}{\class{MAM}}
+\newcommand{\coAM}{\class{coAM}}
+\newcommand{\IP}{\class{IP}}
+\newcommand{\DSP}{\class{DSPACE}}
+\newcommand{\DTIME}{\class{DTIME}}
+
+%Problems and Algorithms
+\newcommand{\SAT}{\prob{SAT} }
+\newcommand{\coSAT}{\prob{coSAT} }
+\newcommand{\SATBP}{\prob{SAT - BP} }
+
+%%% PSEUDOCODE
+
+\newcommand{\pseudocode}[1]{
+\ttfamily
+\vbox{\begin{enumerate}
+\renewcommand{\labelenumi}{}
+\setlength\itemsep{-.3em}
+{#1}
+\end{enumerate}}
+\rmfamily
+}
+
+%Pseudocode Macros
+\newcommand{\IF}[2]{ \If{#1} #2\EndIf }
+\newcommand{\FOR}[2]{ \For{#1} #2 \EndFor }
+\newcommand{\FORALL}[2]{ \ForAll{#1} #2 \EndFor}
+\newcommand{\WHILE}[2]{ \While{#1}#2\EndWhile}
+\newcommand{\REPEAT}[2]{ \Repeat#1\Until{#2}}
+\newcommand{\FUNCTION}[3]{ \Function{#1}{#2}#3\EndFunction}
+\algnewcommand\OR{\ensuremath{\mathbf{or}}}
+\algnewcommand\AND{\ensuremath{\mathbf{and}}}
+\algnewcommand\NOT{\ensuremath{\mathbf{not}}}
+
+%Commands for CMSC 222
+\renewcommand{\iff}{\leftrightarrow}
