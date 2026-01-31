@@ -17,13 +17,22 @@ class Graph:
                     self.reverse_graph[neighbor].add(vertex)
         return self.reverse_graph
     
-    def dfs_path(self, start):
+    def dfs_path(self, start, print_depth=False):
         visited = []
-        def dfs_recursive(current_vertex):
+        if print_depth:
+            print("\t DFS Depth \n")
+            print(start)
+
+        def dfs_recursive(current_vertex, depth=1):
             visited.append(current_vertex)
             for neighbor in self.graph[current_vertex]:
                 if neighbor not in visited:
-                    dfs_recursive(neighbor)
+                    if print_depth:
+                        print(f"{"\t" * depth}{neighbor}")
+                        dfs_recursive(neighbor, depth + 1)
+                    else:
+                        dfs_recursive(neighbor)
+        
         dfs_recursive(start)
         return visited
     
@@ -170,7 +179,7 @@ class Graph:
         return scc, traversal
     
 if __name__ == '__main__':
-    G = Graph({
+    G1 = Graph({
         'A':{'B','F'},
         'B':{'E','G'},
         'C':{'B','D','F'},
@@ -185,7 +194,11 @@ if __name__ == '__main__':
         'L':{'K'}
     }, True)
 
-    scc, path = G.find_scc(print_scc=True)
+    scc, path = G1.find_scc(print_scc=True)
 
-    # print(G.dfs_path('A'))
-    # print(G.bfs_path('A'))
+    G1.dfs_path('A',print_depth=False)
+    print(G1.bfs_path('A')[0])
+
+    G2 = Graph({
+
+    }, True)
