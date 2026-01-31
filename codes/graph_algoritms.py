@@ -179,26 +179,53 @@ class Graph:
         return scc, traversal
     
 if __name__ == '__main__':
-    G1 = Graph({
-        'A':{'B','F'},
-        'B':{'E','G'},
-        'C':{'B','D','F'},
-        'D':{'H'},
-        'E':{'A','I'},
-        'F':{'I'},
-        'G':{'F','H','J','K'},
-        'H':{'L'},
-        'I':{'F'},
-        'J':{'E','I','K'},
-        'K':{'H'},
-        'L':{'K'}
+    # G1 = Graph({
+    #     'A':{'B','F'},
+    #     'B':{'E','G'},
+    #     'C':{'B','D','F'},
+    #     'D':{'H'},
+    #     'E':{'A','I'},
+    #     'F':{'I'},
+    #     'G':{'F','H','J','K'},
+    #     'H':{'L'},
+    #     'I':{'F'},
+    #     'J':{'E','I','K'},
+    #     'K':{'H'},
+    #     'L':{'K'}
+    # }, True)
+
+    # scc, path = G1.find_scc(print_scc=True)
+
+    # G1.dfs_path('A',print_depth=False)
+    # print(G1.bfs_path('A')[0])
+
+    Valid = Graph({
+        'Z':{'A','_D'},
+        'A':{'B'},
+        'B':{'C', '_D'},
+        'C':{},
+        'D':{'_Z', '_B'},
+        '_Z':{'Z'},
+        '_A':{'_Z'},
+        '_B':{'_A'},
+        '_C':{'_B'},
+        '_D':{},
     }, True)
 
-    scc, path = G1.find_scc(print_scc=True)
+    # scc, path = Valid.find_scc(print_scc=True)
 
-    G1.dfs_path('A',print_depth=False)
-    print(G1.bfs_path('A')[0])
-
-    G2 = Graph({
-
+    Invalid = Graph({
+        'Z':{'A','_D'},
+        'A':{'B', '_C'},
+        'B':{'C', '_D'},
+        'C':{'_A'},
+        'D':{'_Z', '_B'},
+        '_Z':{'Z'},
+        '_A':{'_Z'},
+        '_B':{'_A'},
+        '_C':{'_B'},
+        '_D':{},
     }, True)
+
+    scc, path = Invalid.find_scc(print_scc=True)
+    print(path)
