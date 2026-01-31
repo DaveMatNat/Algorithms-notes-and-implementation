@@ -64,12 +64,11 @@ def cc_recursive(G, current, ccnum, components):
 def scc(G):
     first_dfs_setup(G)
     scc = cc_setup(G)
-    return scc, 
+    return scc
 
 clock = 0
 pre = []
 post = []
-start = ''
 post_copy = []
 
 G = {
@@ -95,7 +94,7 @@ print("\n")
 
 # Run regular DFS on highest post no
 
-def dfs_setup(G, start):
+def dfs_setup(G):
     visited = []
     global post_copy
     while post_copy:
@@ -112,4 +111,4 @@ def dfs_recursive(G, visited, current_vertex):
 
 print(f"DFS from highest post number")
 print("\n")
-print(dfs_setup(G, start))
+print(dfs_setup(G))
