@@ -1,7 +1,10 @@
+from collections import deque
+
 class Graph:
-    def __init__(self, graph):
+    def __init__(self, graph, is_directed=False):
         self.graph = graph
         self.reverse_graph = None
+        self.is_directed = is_directed
 
     def get_reverse_graph(self):
         """
@@ -14,8 +17,43 @@ class Graph:
                     self.reverse_graph[neighbor].add(vertex)
         return self.reverse_graph
     
+    def dfs_path(self, start):
+        visited = []
+        def dfs_recursive(current_vertex):
+            visited.append(current_vertex)
+            for neighbor in self.graph[current_vertex]:
+                if neighbor not in visited:
+                    dfs_recursive(neighbor)
+        dfs_recursive(start)
+        return visited
+    
+    def bfs_path(self, start):
+        """
+        :param start: Starting vertex to start BFS search
 
-    def find_scc(self) -> tuple:
+        Return: 
+            tulple of order visited, and distances hashmap ( vertex -> distance from start)
+        """
+
+        visited = []
+        distances = {}
+        distance = 1
+
+        queue = deque()
+        queue.append(start)
+        distances[start] = 1
+
+        while queue:
+            current_vertex = queue.popleft()
+            visited.append(current_vertex)
+            for neighbor in self.graph[current_vertex]:
+                if neighbor not in distances:
+                    distances[neighbor] = distances[current_vertex] + 1
+                    queue.append(neighbor)
+
+        return visited, distances
+
+    def find_scc(self, print_scc = False) -> tuple:
         """
         :param G: G is a graph with key as the vertex and value of hashmap of directed neighbors.
         :return: (List of grouped SCC, Traversal order from highest post no.)
@@ -97,6 +135,25 @@ class Graph:
                     dfs_recursive(vertex)
             return visited
         
+        def print_pretty_scc():
+            """
+            
+            :param self: Description
+            :param scc: Strongly connected component (Connected_component_label -> list of vertices)
+            """
+            ls = { i: list() for i in range(min(scc.values()), max(scc.values())+1) }
+            for k,v in scc.items():
+                ls[v].append(k)
+            
+            print(f"\n\tStrongly Connected Components \n")
+            for cc in ls.values():
+                print(*cc, sep=" ")
+            print()
+        
+        if not self.is_directed:
+            print(f"Graph is NOT directed, cannot find SCC")
+            return None
+        
         clock = [0]
         pre = []
         post = []
@@ -107,8 +164,10 @@ class Graph:
         scc = cc_labeling()
         traversal = path()
 
+        if print_scc:
+            print_pretty_scc()
+
         return scc, traversal
-        
     
 if __name__ == '__main__':
     G = Graph({
@@ -124,7 +183,9 @@ if __name__ == '__main__':
         'J':{'E','I','K'},
         'K':{'H'},
         'L':{'K'}
-    })
+    }, True)
 
-    scc, path = G.find_scc()
-    print(scc)
+    scc, path = G.find_scc(print_scc=True)
+
+    # print(G.dfs_path('A'))
+    # print(G.bfs_path('A'))
