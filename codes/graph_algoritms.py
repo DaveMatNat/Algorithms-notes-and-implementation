@@ -1,4 +1,6 @@
-from collections import deque
+from collections import deque, defaultdict
+from queue import PriorityQueue
+from math import inf
 
 class Graph:
     def __init__(self, graph, is_directed=False):
@@ -61,6 +63,25 @@ class Graph:
                     queue.append(neighbor)
 
         return visited, distances
+    
+    def dijkstra(self,start):
+        dist = defaultdict(lambda: inf) #dist to all vertices defaults to inf
+        finished= set() #Hack because python's PriorityQueue isn't updateable
+        pq = PriorityQueue()
+        for v in self.graph: pq.put((inf,v)) #Adding elements into a pq
+        pq.get((inf,start))
+        pq.put((0,start))
+        dist[start] = 0
+        while(not pq.empty()): #loop over all vertices once
+            curdist,v = pq.get() #PQ pop()
+            if v in finished: continue #hack because pythonPriorityQueue isn't great
+            finished.add(v)
+            for neighbor,weight in self.graph[v].items(): #Iteration over all neighbors of v
+                # print(v,curdist,neighbor,weight)
+                if dist[neighbor] > curdist + weight: #O(1)
+                    dist[neighbor] = curdist + weight
+                    pq.put((dist[neighbor], neighbor)) #pq entry
+        return dist
 
     def find_scc(self, print_scc = False) -> tuple:
         """
@@ -199,33 +220,51 @@ if __name__ == '__main__':
     # G1.dfs_path('A',print_depth=False)
     # print(G1.bfs_path('A')[0])
 
-    Valid = Graph({
-        'Z':{'A','_D'},
-        'A':{'B'},
-        'B':{'C', '_D'},
-        'C':{},
-        'D':{'_Z', '_B'},
-        '_Z':{'Z'},
-        '_A':{'_Z'},
-        '_B':{'_A'},
-        '_C':{'_B'},
-        '_D':{},
-    }, True)
+    # Valid = Graph({
+    #     'Z':{'A','_D'},
+    #     'A':{'B'},
+    #     'B':{'C', '_D'},
+    #     'C':{},
+    #     'D':{'_Z', '_B'},
+    #     '_Z':{'Z'},
+    #     '_A':{'_Z'},
+    #     '_B':{'_A'},
+    #     '_C':{'_B'},
+    #     '_D':{},
+    # }, True)
 
     # scc, path = Valid.find_scc(print_scc=True)
 
-    Invalid = Graph({
-        'Z':{'A','_D'},
-        'A':{'B', '_C'},
-        'B':{'C', '_D'},
-        'C':{'_A'},
-        'D':{'_Z', '_B'},
-        '_Z':{'Z'},
-        '_A':{'_Z'},
-        '_B':{'_A'},
-        '_C':{'_B'},
-        '_D':{},
-    }, True)
+    # Invalid = Graph({
+    #     'Z':{'A','_D'},
+    #     'A':{'B', '_C'},
+    #     'B':{'C', '_D'},
+    #     'C':{'_A'},
+    #     'D':{'_Z', '_B'},
+    #     '_Z':{'Z'},
+    #     '_A':{'_Z'},
+    #     '_B':{'_A'},
+    #     '_C':{'_B'},
+    #     '_D':{},
+    # }, True)
 
-    scc, path = Invalid.find_scc(print_scc=True)
-    print(path)
+    # scc, path = Invalid.find_scc(print_scc=True)
+    # print(path)
+
+    G1 = Graph({
+        "A": {"B":2,"E":4, "H":8},
+        "B": {"A":2,"E":3,"F":1,"C":3},
+        "C": {"B":3,"F":1,"D":3},
+        "D": {"C":3,"F":6,"G":3,"K":5},
+        "E": {"A":4,"B":3,"F":4,"I":3,"H":2},
+        "F": {"E":4,"B":1,"C":1,"D":6,"G":2,"J":7,"I":6},
+        "G": {"F":2,"D":3,"K":1,"J":4},
+        "H": {"A":8,"E":2,"I":2},
+        "I": {"H":2,"E":3,"F":6,"J":1},
+        "J": {"I":1,"F":7,"G":4,"K":2},
+        "K": {"J":2,"G":1,"D":5}
+        }, 
+        is_directed=True
+    )
+
+    print(G1.dijkstra('A'))
